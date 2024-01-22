@@ -2,7 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const dotenv = require("dotenv");
 const path = require("path");
-
+// const router = express.Router();
 dotenv.config({ path: './env'})
 const app = express();
 
@@ -17,8 +17,15 @@ const db = mysql.createConnection({
 
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
-//onsole.log(__dirname);
 
+
+//parse url encoded bodies (as sent by html form)
+app.use(express.urlencoded({ extended: false}));
+
+//parser json bodles (as sent api client)
+app.use(express.json());
+
+//onsole.log(__dirname);
 app.set('view engine', 'hbs');
 
 db.connect((err)=>{
@@ -30,23 +37,18 @@ db.connect((err)=>{
 });
 
 
-app.get("/", (req, res) => {
-    //res.send("<h1>Home Page</h1>")
-    res.render("index")
+//define routes
 
-});
-
-app.get("/register", (req, res) => {
-    //res.send("<h1>Home Page</h1>")
-    res.render("register")
-
-});
+app.use('/', require('./routes/pages'));
+app.use('/auth', require(('./routes/auth')));
 
 app.listen(5000, () => {
 console.log("Server listening on port 5000");
 
 
 });
+
+
 
 //We have all the time that life gives us, 
 //but we don't know how long we have it.
