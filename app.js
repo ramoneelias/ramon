@@ -8,10 +8,10 @@ const app = express();
 
 const db = mysql.createConnection({
 
-    host: process.env.DATABABSE_HOST,
-    user: process.env.DATABABSE_USER,
-    password: process.env.DATABABSE_PASSWORD,
-    database: process.env.DATABABSE
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
 });
 
 
@@ -40,10 +40,11 @@ db.connect((err)=>{
 //define routes
 
 app.use('/', require('./routes/pages'));
-app.use('/auth', require(('./routes/auth')));
+app.use('/auth', require('./routes/auth'));
 
-app.listen(5000, () => {
-console.log("Server listening on port 5000");
+app.listen(5001, () => {
+console.log("Server listening on port 5001");
+
 
 
 });

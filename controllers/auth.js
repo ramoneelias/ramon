@@ -5,20 +5,21 @@ const bcrypt = require('bcryptjs');
 
 const db = mysql.createConnection({
 
-    host: process.env.DATABABSE_HOST,
-    user: process.env.DATABABSE_USER,
-    password: process.env.DATABABSE_PASSWORD,
-    database: process.env.DATABABSE
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
 });
 
 exports.register = (req, res) => {
     console.log(req.body);
 
-    const {name, email, password, passwordConfirm} = req.body;
 
-db.query("SELECT email FROM Proyecto1.usuario WHERE email = ?", [email], async( error, results) => {
+const {name, email, password, passwordConfirm} = req.body;
+
+db.query('SELECT email FROM Proyecto1.Proyecto WHERE email = ?', [email], async(error, results) => {
 if (error){
-    console.log(error)
+    console.log(error);
 }
 
 if(results?.length > 0 ) {
@@ -26,20 +27,18 @@ return res.render('register', {
     massage: "that email is alread exist!"
 })
 
-} else if (password != passwordConfirm){
+} else if( password != passwordConfirm ) {
     return res.render('register', {
         massage: "Passwords do not match"
-    })
+    });
 }
 
-let hashePassword = await bcrypt.hash(password, 8);
-console.log(hashePassword);
+
+let hashedPassword = await bcrypt.hash(password, 8);
+console.log(hashedPassword);
 res.send('testing');
 
-
-
 });
-
 
 
 }
