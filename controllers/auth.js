@@ -17,7 +17,7 @@ exports.register = (req, res) => {
 
 const {name, email, password, passwordConfirm} = req.body;
 
-db.query('SELECT email FROM Proyecto1.Proyecto WHERE email = ?', [email], async(error, results) => {
+db.query('SELECT email FROM PROYECTO.USERS WHERE email = ?', [email], async(error, results) => {
 if (error){
     console.log(error);
 }

@@ -7,36 +7,13 @@ const { Console } = require("console");
 dotenv.config({ path: './env'})
 const app = express();
 
-// const db = mysql.createConnection({
+ const db = mysql.createConnection({
 
-//     host: process.env.DATABASE_HOST,
-//     user: process.env.DATABASE_USER,
-//     password: process.env.DATABASE_PASSWORD,
-//     database: process.env.DATABASE
-// });
-
-const pool = mysql.createPool({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE
-}).promise();
-
-
-// Declaración de una función asíncrona
-// async function miFuncion() {
-//     try {
-//       // Código con await
-//       const [rows] = await pool.query('SELECT * FROM USERS');
-//       console.log(rows);
-//     } catch (error) {
-//       console.error('Error:', error);
-//     }
-//   }
-  
-//   // Llamada a la función asíncrona
-//   miFuncion();
-/////////////////////  
+});
 
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
@@ -51,7 +28,7 @@ app.use(express.json());
 //onsole.log(__dirname);
 app.set('view engine', 'hbs');
 
- pool.getConnection((err)=>{
+ db.connect((err)=>{
      if(err){
          console.log(err)
      }else{
